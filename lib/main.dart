@@ -29,6 +29,10 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+
+      /// 2. Warp widget with multiprovider or ChangeNotifierProvider
+      /// where in widget tree? it's up where you want to stream your data down.
+      ///
       home: MultiProvider(
         providers: [
           ChangeNotifierProvider<Counter>(create: (_) => Counter()),
@@ -57,7 +61,11 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final randTxt = Provider.of<Counter>(context);
+    /// 3. define your provider variable
+    ///
+    /// listen=false will not reload whole widget tree, only reload Consumer<T>
+    ///
+    final randTxt = Provider.of<Counter>(context, listen: false);
     final se = Provider.of<SecondProvider>(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -94,23 +102,32 @@ class MyHomePage extends StatelessWidget {
             Text(
               'You have pushed the button this many times:',
             ),
+
+            ///
+            /// 4.1 Warp Text widget with consumer<T> because listen=false
+            ///
             Consumer<Counter>(
               builder: (_, ranData, __) => Text(
                 '${ranData.txt}',
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
-            Consumer<SecondProvider>(
-              builder: (_, seData, __) => Text(
-                '${seData.te}',
-                style: Theme.of(context).textTheme.headline4,
-              ),
+
+            ///
+            /// 4.2 this will cause reload whole widget tree
+            ///
+            Text(
+              '${se.te}',
+              style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
+          ///
+          /// 5. call provider function to update data on upstream widget
+          ///
           randTxt.changeRandomTxt(),
           se.changeTe(),
         },

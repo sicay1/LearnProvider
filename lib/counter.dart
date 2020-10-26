@@ -4,6 +4,12 @@ import 'package:faker/faker.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
 
+/// 1. tạo class với mixin ChangeNotifier
+///
+/// property 'value'
+///
+/// function 'increment' --> nhớ có notifiListeners
+///
 class Counter with ChangeNotifier {
   var txt = "0";
   var faker = new Faker();
