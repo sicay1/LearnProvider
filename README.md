@@ -1,8 +1,6 @@
-# provider1
+# Starter project to learn provider
 
-starter project to learn provider
-
-package using:
+## package using
 
 - provider
 - faker //random_words
