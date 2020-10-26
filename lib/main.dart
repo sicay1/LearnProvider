@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider1/counter.dart';
+import 'package:provider1/second.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,9 +29,14 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: ChangeNotifierProvider<Counter>(
-          create: (context) => Counter(),
-          child: MyHomePage(title: 'Flutter Demo Home Page')),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<Counter>(create: (_) => Counter()),
+          ChangeNotifierProvider<SecondProvider>(
+              create: (_) => SecondProvider()),
+        ],
+        child: MyHomePage(title: 'Flutter Demo Home Page'),
+      ),
     );
   }
 }
@@ -52,6 +58,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final randTxt = Provider.of<Counter>(context);
+    final se = Provider.of<SecondProvider>(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -88,8 +95,14 @@ class MyHomePage extends StatelessWidget {
               'You have pushed the button this many times:',
             ),
             Consumer<Counter>(
-              builder: (_, ran, __) => Text(
-                '${ran.txt}',
+              builder: (_, ranData, __) => Text(
+                '${ranData.txt}',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            ),
+            Consumer<SecondProvider>(
+              builder: (_, seData, __) => Text(
+                '${seData.te}',
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
@@ -97,7 +110,10 @@ class MyHomePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: randTxt.changeRandomTxt,
+        onPressed: () => {
+          randTxt.changeRandomTxt(),
+          se.changeTe(),
+        },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

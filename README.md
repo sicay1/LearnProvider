@@ -7,8 +7,7 @@
 
 ## Improve
 
-- try multiprovider
-- futre provider
+- future provider
 - stream provider
 
 ## Getting Started
