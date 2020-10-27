@@ -10,10 +10,11 @@ import 'package:logger/logger.dart';
 ///
 /// function 'increment' --> nhớ có notifiListeners
 ///
-class Counter with ChangeNotifier {
-  var txt = "0";
-  var faker = new Faker();
-  var logger = new Logger();
+// mixin ChangeNotifier{}
+class Counter extends ChangeNotifier {
+  String txt = '';
+  Faker faker = const Faker(); // = new Faker();
+  Logger logger = Logger(); // = new Logger();
 
   void changeRandomTxt() {
     // txt = faker.sport.name();

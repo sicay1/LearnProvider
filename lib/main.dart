@@ -1,13 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:provider1/counter.dart';
-import 'package:provider1/second.dart';
+import './counter.dart';
+import './second.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key key}) : super(key: key);
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -39,14 +41,14 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<SecondProvider>(
               create: (_) => SecondProvider()),
         ],
-        child: MyHomePage(title: 'Flutter Demo Home Page'),
+        child: const MyHomePage(title: 'Flutter Demo Home Page'),
       ),
     );
   }
 }
 
 class MyHomePage extends StatelessWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -108,7 +110,7 @@ class MyHomePage extends StatelessWidget {
             ///
             Consumer<Counter>(
               builder: (_, ranData, __) => Text(
-                '${ranData.txt}',
+                ranData.txt,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
@@ -117,7 +119,7 @@ class MyHomePage extends StatelessWidget {
             /// 4.2 this will cause reload whole widget tree
             ///
             Text(
-              '${se.te}',
+              se.te,
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
@@ -126,14 +128,19 @@ class MyHomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
           ///
-          /// 5. call provider function to update data on upstream widget
+          /// 5. call provider method to update data on upstream widget
           ///
           randTxt.changeRandomTxt(),
           se.changeTe(),
         },
         tooltip: 'Increment',
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(StringProperty('title', title));
   }
 }

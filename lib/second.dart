@@ -1,10 +1,10 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/cupertino.dart';
 
-class SecondProvider with ChangeNotifier {
-  var count = 0;
-  var te = "";
-  var faker = new Faker();
+class SecondProvider extends ChangeNotifier {
+  int count = 0;
+  String te = '';
+  Faker faker = const Faker(); // = new Faker();
 
   void changeTe(){
     count++;
